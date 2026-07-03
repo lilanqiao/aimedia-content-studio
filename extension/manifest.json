@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "改文工坊 · 提示词自动填充",
+  "version": "1.2.0",
+  "description": "从改文工坊跳转到 ChatGPT / Grok / Gemini 时,自动把提示词填进输入框(不自动发送),并始终复用同一个标签页。",
+  "permissions": ["tabs", "scripting"],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://grok.com/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost/*", "http://127.0.0.1/*"],
+      "js": ["bridge.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://grok.com/*",
+        "https://x.com/i/grok*",
+        "https://gemini.google.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
